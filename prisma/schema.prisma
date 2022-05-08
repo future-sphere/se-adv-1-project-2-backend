@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = "postgres://oiuncaregtpmgr:a437f89998cfaa0175b3f47456014477dec08d0b9eedadfc37faf3e6e689b9be@ec2-3-218-171-44.compute-1.amazonaws.com:5432/dct16h9o1u3akk"
+  shadowDatabaseUrl = "postgres://wbzglafllozogg:621e806e257c30ef37cba5e6f999f10da056d11a34e99a34467ecfcff0544be3@ec2-3-218-171-44.compute-1.amazonaws.com:5432/d68c507o0umdg4"
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  authorId  Int?
+  User      User?    @relation(fields: [authorId], references: [id])
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  Post  Post[]
+}
