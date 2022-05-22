@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import teachersRouter from './teachers';
+import usersRouter from './users';
 
 const baseRouter = Router();
 
-baseRouter.use('/teachers', teachersRouter);
+baseRouter.use('/users', usersRouter);
 
 export default baseRouter;
