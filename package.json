@@ -4,7 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q src/index.ts\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q src/index.ts\"",
+    "migrate": "prisma migrate dev",
+    "seed": "prisma db seed",
+    "reset": "prisma migrate reset",
+    "generate": "prisma generate",
+    "studio": "prisma studio"
   },
   "dependencies": {
     "@prisma/client": "3.12.0",

@@ -3,26 +3,88 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = "postgres://oiuncaregtpmgr:a437f89998cfaa0175b3f47456014477dec08d0b9eedadfc37faf3e6e689b9be@ec2-3-218-171-44.compute-1.amazonaws.com:5432/dct16h9o1u3akk"
-  shadowDatabaseUrl = "postgres://wbzglafllozogg:621e806e257c30ef37cba5e6f999f10da056d11a34e99a34467ecfcff0544be3@ec2-3-218-171-44.compute-1.amazonaws.com:5432/d68c507o0umdg4"
+  provider = "postgresql"
+  url      = "postgresql://bctc:Bctc666!@lab.bctc.io:7087/se-adv-1-peter"
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
   updatedAt DateTime
   title     String
   content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  authorId  Int?
-  User      User?    @relation(fields: [authorId], references: [id])
+  published Boolean   @default(false)
+  viewCount Int       @default(0)
+  userId    Int?
+  groupId   Int?
+  tagId     Int?
+  group     Group?    @relation(fields: [groupId], references: [id])
+  tag       Tag?      @relation(fields: [tagId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id])
+  comments  Comment[]
+  likes     Like[]
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  Post  Post[]
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  firstName   String?
+  lastName    String?
+  password    String
+  username    String?      @unique
+  comments    Comment[]
+  likes       Like[]
+  posts       Post[]
+  friendships Friendship[]
+  groups      Group[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  content   String
+  postId    Int
+  userId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  like      Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  postId    Int?
+  userId    Int
+  commentId Int?
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  name      String
+  posts     Post[]
+}
+
+model Group {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  name      String
+  posts     Post[]
+  users     User[]
+}
+
+model Friendship {
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime
+  accepted   Boolean   @default(false)
+  acceptedAt DateTime?
+  users      User[]
 }
