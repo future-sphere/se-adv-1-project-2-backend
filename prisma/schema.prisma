@@ -4,5 +4,13 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://bctc:Bctc666!@lab.bctc.io:7087/xxt"
+  url      = "postgresql://bctc:Bctc666!@lab.bctc.io:7087/se-adv-2-project-2-peter"
+}
+
+model Student {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  age       Int
+  grade     String
 }
