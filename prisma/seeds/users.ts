@@ -10,7 +10,6 @@ const users = [
   },
 ];
 
-//amongus
 export const seedUsers = async (prisma: PrismaClient) => {
   console.log('Seeding users...');
   const now = new Date();

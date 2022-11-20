@@ -15,6 +15,7 @@ export const seedOrders = async (prisma: PrismaClient) => {
           id: user?.id,
         },
       },
+      // me think so
       createdAt: now,
       updatedAt: now,
       products: {
@@ -22,7 +23,8 @@ export const seedOrders = async (prisma: PrismaClient) => {
           id: product?.id,
         },
       },
-      status: '',
+      status: 'En route',
     },
   });
 };
+// me thinnks?
