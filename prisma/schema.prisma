@@ -21,20 +21,19 @@ model User {
 }
 
 model Product {
-  id             Int      @id @default(autoincrement())
+  id             Int        @id @default(autoincrement())
   name           String
   description    String
   price          Float
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
   thumbnailImage String
   images         String[]
-  category       Category @relation(fields: [categoryId], references: [id])
+  category       Category   @relation(fields: [categoryId], references: [id])
   categoryId     Int
-  order          Order?   @relation(fields: [orderId], references: [id])
+  order          Order?     @relation(fields: [orderId], references: [id])
   orderId        Int?
-  cart           Cart?    @relation(fields: [cartId], references: [id])
-  cartId         Int?
+  cartItem       CartItem[]
 }
 
 model Category {
@@ -54,8 +53,8 @@ model Order {
   products  Product[]
   status    String
   userId    Int
-  address   Address   @relation(fields: [addressId], references: [id])
-  addressId Int
+  address   Address?  @relation(fields: [addressId], references: [id])
+  addressId Int?
 }
 
 model Address {
@@ -72,10 +71,21 @@ model Address {
 }
 
 model Cart {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
-  products  Product[]
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  user      User       @relation(fields: [userId], references: [id])
   userId    Int
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  cartId    Int
+  productId Int
+  quantity  Int
 }
